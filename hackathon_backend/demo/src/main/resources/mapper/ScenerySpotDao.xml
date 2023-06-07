@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.ScenerySpotDao">
+
+    <resultMap type="com.example.demo.entity.ScenerySpot" id="ScenerySpotMap">
+        <result property="destId" column="dest_id" jdbcType="INTEGER"/>
+        <result property="destName" column="dest_name" jdbcType="VARCHAR"/>
+        <result property="destEnName" column="dest_en_name" jdbcType="VARCHAR"/>
+        <result property="navigationBar" column="navigation_bar" jdbcType="VARCHAR"/>
+        <result property="realCity" column="real_city" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="specialRemind" column="special_remind" jdbcType="VARCHAR"/>
+        <result property="photos" column="photos" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="VARCHAR"/>
+        <result property="ranking" column="ranking" jdbcType="VARCHAR"/>
+        <result property="recommendPlaytime" column="recommend_playtime" jdbcType="VARCHAR"/>
+        <result property="commentNum" column="comment_num" jdbcType="VARCHAR"/>
+        <result property="lat" column="lat" jdbcType="NUMERIC"/>
+        <result property="lng" column="lng" jdbcType="NUMERIC"/>
+        <result property="percent" column="percent" jdbcType="VARCHAR"/>
+        <result property="travelbookNum" column="travelbook_num" jdbcType="VARCHAR"/>
+        <result property="summaryDescription" column="summary_description" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="website" column="website" jdbcType="VARCHAR"/>
+        <result property="openingHours" column="opening_hours" jdbcType="VARCHAR"/>
+        <result property="admissionTicket" column="admission_ticket" jdbcType="VARCHAR"/>
+        <result property="touristSeason" column="tourist_season" jdbcType="VARCHAR"/>
+        <result property="trafficGuide" column="traffic_guide" jdbcType="VARCHAR"/>
+        <result property="tips" column="tips" jdbcType="VARCHAR"/>
+        <result property="grade" column="grade" jdbcType="VARCHAR"/>
+        <result property="timeReference" column="time_reference" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap type="com.example.demo.entity.SimpleSpot" id="SimpleSpotMap">
+        <result property="destName" column="dest_name" jdbcType="VARCHAR"/>
+        <result property="lat" column="lat" jdbcType="NUMERIC"/>
+        <result property="lng" column="lng" jdbcType="NUMERIC"/>
+    </resultMap>
+    <!--查询单个-->
+    <select id="queryById" resultMap="ScenerySpotMap">
+        SELECT dest_id, dest_name, dest_en_name, navigation_bar, real_city, city, special_remind, photos, score, ranking, recommend_playtime, comment_num, lat, lng, percent, travelbook_num, summary_description, address, phone, website, opening_hours, admission_ticket, tourist_season, traffic_guide, tips, grade, time_reference, url
+        FROM scenery_spot
+        WHERE lat BETWEEN #{latMin} AND #{latMax}
+          AND lng BETWEEN #{lngMin} AND #{lngMax} LIMIT 1
+    </select>
+
+    <select id="queryByName" resultMap="ScenerySpotMap">
+        select dest_id, dest_name, dest_en_name, navigation_bar, real_city, city, special_remind, photos, score, ranking, recommend_playtime, comment_num, lat, lng, percent, travelbook_num, summary_description, address, phone, website, opening_hours, admission_ticket, tourist_season, traffic_guide, tips, grade, time_reference, url
+        from scenery_spot where dest_name = #{name}
+    </select>
+
+    <select id="queryNameAndLocation" resultMap="SimpleSpotMap">
+        select dest_name,lat,lng
+        from scenery_spot
+    </select>
+
+
+    <insert id="add" parameterType="com.example.demo.entity.ScenerySpot">
+        insert ignore into scenery_spot(dest_id, dest_name, photos, lat,lng,summary_description) values(1,#{scenerySpot.destName},#{scenerySpot.photos},#{scenerySpot.lat},#{scenerySpot.lng},#{scenerySpot.summaryDescription})
+    </insert>
+</mapper>
+
